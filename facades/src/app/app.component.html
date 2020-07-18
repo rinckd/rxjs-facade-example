@@ -1,0 +1,41 @@
+<div *ngIf="vm$ | async as vm" style="overflow: hidden;">
+  <mat-toolbar class="location-navbar mat-elevation-z6">
+    <span>RxJS Facades</span>
+  </mat-toolbar>
+
+  <div id="map-container">
+    <ng-container *ngIf="vm.loadingAddress">
+      <mat-progress-bar
+        color="primary"
+        id="map-progress-bar"
+        mode="indeterminate"
+      ></mat-progress-bar>
+    </ng-container>
+    <google-map
+      [zoom]="vm.mapZoom"
+      [options]="vm.mapOptions"
+      width="100%"
+      [height]="vm.loadingAddress ? 'calc(100% - 1px)' : '100%'"
+    >
+      <map-marker
+        #markerElem
+        *ngFor="let marker of vm.markers"
+        [position]="marker.position"
+        [label]="marker.label"
+        [title]="marker.title"
+        [options]="marker.options"
+        (mapDragend)="mapDragged($event)"
+      >
+      </map-marker>
+
+      <div
+        style="width: 400px; height: 50px;"
+        class="map-location mat-elevation-z3"
+      >
+        <ng-container *ngIf="!vm.loadingAddress">
+          {{ vm.location }}
+        </ng-container>
+      </div>
+    </google-map>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+#map-progress-bar {
+  .mat-progress-bar-element,
+  .mat-progress-bar-fill::after {
+    height: 1px;
+    z-index: 5999;
+  }
+}
+
+#map-container {
+  position: absolute;
+  top: 65px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.map-location {
+  background: #ffffffdd;
+  padding: 10px;
+  border-radius: 5px;
+  line-height: normal;
+  border: 1px solid #ddd;
+  position: absolute;
+  left: 10px;
+  top: 80px;
+  z-index: 2;
+}
+
+.location-navbar {
+  position: absolute;
+  z-index: 5000;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+@media (max-width: 599px) {
+  #map-container {
+    top: 56px;
+  }
+}
