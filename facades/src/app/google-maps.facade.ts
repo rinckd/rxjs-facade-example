@@ -23,7 +23,6 @@ let _state: GoogleMapsState = {
 
 @Injectable()
 export class GoogleMapsFacade implements OnDestroy {
-  autoCompleteService: google.maps.places.AutocompleteService;
   private onDestroy = new Subject<void>();
   private store = new BehaviorSubject<GoogleMapsState>(_state);
   private state$ = this.store.asObservable();
@@ -60,7 +59,8 @@ export class GoogleMapsFacade implements OnDestroy {
   markers$ = this.state$.pipe(
     map((state) => {
       return state.markers;
-    })
+    }),
+    distinctUntilChanged()
   );
 
   vm$: Observable<GoogleMapsState> = combineLatest([
@@ -86,6 +86,8 @@ export class GoogleMapsFacade implements OnDestroy {
   geoCode(location: google.maps.LatLngLiteral, dropPin: boolean) {
     this.updateState({ ..._state, loadingAddress: true });
     setTimeout(() => {
+      // the setTimeout is not necessary! Only here to slow things down
+      // so that the progress bar interactions are easier to see
       this.geocoder.geocode({ location }, (results, status) => {
         if (status === 'OK') {
           this.ngZone.run(() => {
